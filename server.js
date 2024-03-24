@@ -19,9 +19,15 @@ app.use(express.static(__dirname + '/public'));
 // nodemon 임시로 사용가능한 명령어 : Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 app.get('/', function(요청, 응답) {
-    응답.sendFile(__dirname + '/index.html')
-  })
+  응답.sendFile(__dirname + '/index.html')
+})
 
-  app.get('/news', ()=>{
-    db.collection('post').insertOne({title : '어쩌구'})
-  })
+app.get('/news', ()=>{
+  db.collection('post').insertOne({title : '어쩌구'})
+})
+
+app.get('/list', async (요청,응답)=>{
+  let result = await db.collection('post').find().toArray()
+  console.log(result[0].title)
+  응답.send('db에 있던 게시물')
+})
